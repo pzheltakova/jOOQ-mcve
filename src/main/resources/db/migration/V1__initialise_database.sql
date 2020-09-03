@@ -1,10 +1,9 @@
-DROP SCHEMA IF EXISTS mcve CASCADE;
+create type traversal_order as enum ('ascending', 'descending');
+CREATE TABLE test
+(
+    id     serial not null
+        CONSTRAINT pk_test PRIMARY KEY,
 
-CREATE SCHEMA mcve;
-
-CREATE TABLE mcve.test (
-  id    INT NOT NULL AUTO_INCREMENT,
-  value INT,
-  
-  CONSTRAINT pk_test PRIMARY KEY (id) 
+    value1 traversal_order,
+    value2 real[]
 );

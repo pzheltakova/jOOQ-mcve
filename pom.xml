@@ -10,13 +10,19 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.jooq.version>3.13.1</org.jooq.version>
-        <db.url>jdbc:h2:~/mcve</db.url>
-        <db.username>sa</db.username>
+        <org.jooq.version>3.13.4</org.jooq.version>
+        <db.url>jdbc:postgresql:~/mvce</db.url>
+        <db.username>pzheltakova</db.username>
         <db.password></db.password>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq-meta-extensions</artifactId>
+            <version>${org.jooq.version}</version>
+        </dependency>
 
         <!-- Database access -->
         <dependency>
@@ -25,9 +31,9 @@
             <version>${org.jooq.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.199</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.10</version>
         </dependency>
 
         <!-- Logging -->
@@ -94,25 +100,15 @@
                         </goals>
 
                         <configuration>
-                            <jdbc>
-                                <url>${db.url}</url>
-                                <user>${db.username}</user>
-                                <password>${db.password}</password>
-                            </jdbc>
                             <generator>
                                 <database>
-                                    <includes>.*</includes>
-                                    <schemata>
-                                        <!-- PostgreSQL is lower case by default -->
-                                        <schema>
-                                            <inputSchema>mcve</inputSchema>
-                                        </schema>
-
-                                        <!-- H2 and others are upper case by default -->
-                                        <schema>
-                                            <inputSchema>MCVE</inputSchema>
-                                        </schema>
-                                    </schemata>
+                                    <name>org.jooq.meta.extensions.ddl.DDLDatabase</name>
+                                    <properties>
+                                        <property>
+                                            <key>scripts</key>
+                                            <value>/src/main/resources/db/migration/V1__initialise_database.sql</value>
+                                        </property>
+                                    </properties>
                                 </database>
                                 <generate>
                                     <generatedAnnotation>false</generatedAnnotation>
